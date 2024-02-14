@@ -5,6 +5,7 @@ from emoji_specificity import emoji_specificity
 from word_commonality import word_commonality
 from emoji_commonality import emoji_commonality
 from time_analysis import time_ana
+import os
 
 
 def main(  # 下面这些文件都放在input_data目录下
@@ -16,6 +17,10 @@ def main(  # 下面这些文件都放在input_data目录下
         name_both: str = 'both', name1: str = 'person 1', name2: str = 'person 2',
         top_k_word: int = 25, top_k_emoji: int = 5,
         min_count_word: int = 20, min_count_emoji: int = 1):
+    if not os.path.exists('figs'):
+        os.mkdir('figs')
+    if not os.path.exists('temp_files'):
+        os.mkdir('temp_files')
     parse(msg_file, emoji_file, stopword_file, transform_file, user_dict_file)
     wc_main(name_both, name1, name2)
     word_specificity(name1, name2, top_k_word, min_count_word)
