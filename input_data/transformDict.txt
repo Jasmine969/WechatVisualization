@@ -1,0 +1,12 @@
+original	transformed
+ppt	PPT
+pdf	PDF
+word	WORD
+吃饭	吃
+睡觉	睡
+qq	QQ
+Qq	QQ
+吃点	吃
+看到	看
+听到	听
+见到	见
