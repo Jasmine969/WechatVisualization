@@ -11,6 +11,7 @@ def word_commonality(name_both: str = 'both', top_k: int = 25, figsize=(10, 12))
         d2_kw = dct['d2']
     common_df = calc_commonality(d1_kw, d2_kw)
     common_df.sort_values(by='commonality', ascending=False, inplace=True)
+    plt.close('all')
     plt.rc('font', family='SimSun', size=15)
     plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
     y = list(range(top_k - 1, -1, -1))
@@ -20,7 +21,7 @@ def word_commonality(name_both: str = 'both', top_k: int = 25, figsize=(10, 12))
     plt.xlabel('词语共有性', fontsize=20)
     plt.ylabel('词语', fontsize=20)
     plt.title(f'{name_both} Top 25 words', fontsize=20)
-    plt.savefig(f'figs/{name_both} commonality.png')
+    plt.savefig(f'figs/{name_both} word commonality.png')
     print('=' * 20)
 
 

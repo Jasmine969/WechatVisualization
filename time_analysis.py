@@ -21,6 +21,7 @@ def time_ana(msg_file='msg.csv', figsize=(12, 8)):
     # 时均数据
     data_hour = data.groupby(by='hour')['hour'].count() / n_date
     x1 = list(range(len(data_yearmonth)))
+    plt.close('all')
     plt.figure(1, figsize=figsize)
     plt.rc('font', family='SimSun', size=15)
     start, end = 0, 13 - date0.month
