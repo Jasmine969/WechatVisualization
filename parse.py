@@ -14,7 +14,7 @@ parse对消息进行分词。会分出词语和表情两列。
 def parse(msg_file='msg.csv', emoji_file='emoji.txt',
           stopword_file='stopwords_hit_modified.txt',
           transform_file='transformDict.txt',
-          user_dict_file='userDict.txt'):
+          user_dict_file='userDict.txt', process_rows='all'):
     print('开始分词')
     records = pd.read_csv(
         f'input_data/{msg_file}', usecols=['IsSender', 'StrContent', 'StrTime']).dropna(how='any')
@@ -32,14 +32,14 @@ def parse(msg_file='msg.csv', emoji_file='emoji.txt',
     transformDict = pd.read_table(f'input_data/{transform_file}'
                                   ).set_index('original').to_dict()['transformed']
     jieba.load_userdict(f'input_data/{user_dict_file}')
-    process_rows = 1000
+    if process_rows == 'all':
+        process_rows = records.shape[0]
     result = []
     emoji_res = []
     records['keywords'] = [float('nan') for _ in range(records.shape[0])]
     records['emoji'] = [float('nan') for _ in range(records.shape[0])]
     # emoji_set = set()
-    # for i in tqdm(range(records.shape[0])):  # 处理全部消息
-    for i in tqdm(range(process_rows)):  # 处理前n行消息，用于调试代码
+    for i in tqdm(range(process_rows)):
         for word in jieba.cut(records.loc[i, 'StrContent'], use_paddle=True):  # 使用paddle模式
             # 不是停词，不是空白，是数字字母下划线汉字或者[]，不是纯数字(包括带小数点的)，不是单个英文字母
             if word not in stop_words and len(word.strip()) and \

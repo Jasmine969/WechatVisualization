@@ -19,8 +19,10 @@ def emoji_specificity(name1: str = 'person 1', name2: str = 'person 2',
     with open('temp_files/emoji_count.pkl', 'wb') as pf:
         pickle.dump({'d1': d1_count, 'd2': d2_count}, pf)
     all_df = calc_specificity(d1_count, d2_count)
+    print(f"emoji_min_count应不超过{int(all_df['count'].max())}")
     all_df = all_df[all_df['count'] > emoji_min_count]
     all_df.sort_values(by='specificity', inplace=True)
+    print(f'top_k应不超过{all_df.shape[0]}')
     plt.close('all')
     plt.rc('font', family='SimSun', size=15)
     plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号

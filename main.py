@@ -1,5 +1,5 @@
-from parse_1 import parse
-from word_cloud_2 import wc_main
+from parse import parse
+from word_cloud import wc_main
 from word_specificity import word_specificity
 from emoji_specificity import emoji_specificity
 from word_commonality import word_commonality
@@ -18,13 +18,14 @@ def main(  # 下面这些文件都放在input_data目录下
         name_both: str = 'both', name1: str = 'person 1', name2: str = 'person 2',
         p_word_specificity=None, p_emoji_specificity=None,
         p_word_commonality=None, p_emoji_commonality=None,
-        p_time_analysis=None
+        p_time_analysis=None,
+        process_rows='all'
 ):
     if not os.path.exists('figs'):
         os.mkdir('figs')
     if not os.path.exists('temp_files'):
         os.mkdir('temp_files')
-    parse(msg_file, emoji_file, stopword_file, transform_file, user_dict_file)
+    parse(msg_file, emoji_file, stopword_file, transform_file, user_dict_file, process_rows)
     wc_main(name_both, name1, name2)
     word_specificity(name1, name2, **p_word_specificity)
     emoji_specificity(name1, name2, **p_emoji_specificity)
@@ -35,7 +36,7 @@ def main(  # 下面这些文件都放在input_data目录下
 
 
 if __name__ == '__main__':
-    with open('config.yml', 'r') as f:
+    with open('config.yml', 'r', encoding='utf-8') as f:
         p = yaml.safe_load(f)
     main(
         msg_file=p['msg_file'],
@@ -48,5 +49,6 @@ if __name__ == '__main__':
         p_emoji_specificity=p['emoji_specificity'],
         p_word_commonality=p['word_commonality'],
         p_emoji_commonality=p['emoji_commonality'],
-        p_time_analysis=p['time_analysis']
+        p_time_analysis=p['time_analysis'],
+        process_rows=p['process_rows']
     )

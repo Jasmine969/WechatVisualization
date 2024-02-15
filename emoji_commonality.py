@@ -11,6 +11,7 @@ def emoji_commonality(name_both: str = 'both', top_k: int = 5, figsize=(12, 12))
         d2_count = dct['d2']
     common_df = calc_commonality(d1_count, d2_count)
     common_df.sort_values(by='commonality', ascending=False, inplace=True)
+    print(f'top_k应不超过{common_df.shape[0]}')
     plt.close('all')
     plt.rc('font', family='SimSun', size=15)
     plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号

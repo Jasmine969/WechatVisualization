@@ -20,6 +20,10 @@ def time_ana(msg_file='msg.csv', figsize=(12, 8)):
     data_yearmonth = data.groupby(by='year-month')['year-month'].count()
     # 时均数据
     data_hour = data.groupby(by='hour')['hour'].count() / n_date
+    data_hour0_index = set(str(each).zfill(2) for each in range(24)) - set(data_hour.index)
+    data_hour0 = pd.Series([0 for _ in range(len(data_hour0_index))], data_hour0_index)
+    data_hour = pd.concat((data_hour, data_hour0))
+    data_hour.sort_index(inplace=True)
     x1 = list(range(len(data_yearmonth)))
     plt.close('all')
     plt.figure(1, figsize=figsize)
