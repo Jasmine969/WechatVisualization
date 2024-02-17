@@ -36,6 +36,7 @@ def emoji_specificity(name1: str = 'person 1', name2: str = 'person 2',
     plt.title(f'{name1} Top 5 emojis', fontsize=20)
     plt.savefig(f'figs/{name1} emoji specificity.png')
     plt.figure(2, figsize=figsize)
+    all_df.sort_values(by='specificity', ascending=True, inplace=True)
     plt.barh(y, -all_df.iloc[:top_k, 3])
     plt.yticks(y, all_df.iloc[:top_k, 0].tolist())
     plt.xlabel('emoji专属性', fontsize=20)

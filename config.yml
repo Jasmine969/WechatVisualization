@@ -35,7 +35,7 @@ word_specificity:
 
 emoji_specificity:
   emoji_min_count: 1
-  top_k: 2
+  top_k: 5
   figsize:
   - 10
   - 12
@@ -47,7 +47,7 @@ word_commonality:
   - 12
   
 emoji_commonality:
-  top_k: 2
+  top_k: 5
   figsize:
   - 12
   - 12
