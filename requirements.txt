@@ -1,0 +1,6 @@
+pyecharts==2.0.4
+jieba==0.42.1
+tqdm==4.62.0
+pandas==1.3.5
+matplotlib==3.4.2
+PyYAML==6.0.1
