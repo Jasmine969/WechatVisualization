@@ -17,7 +17,7 @@ def parse(msg_file='msg.csv', emoji_file='emoji.txt',
           user_dict_file='userDict.txt', process_rows='all'):
     print('开始分词')
     records = pd.read_csv(
-        f'input_data/{msg_file}', usecols=['IsSender', 'StrContent']).dropna(how='any')
+        f'input_data/{msg_file}', usecols=['IsSender', 'StrContent', 'StrTime']).dropna(how='any')
     # 如果有一条消息是乱码或者纯数字，直接删除之
     not_want_msg = ['<.+',  # 如<msg，<?xml
                     '^\d{1,}$'  # 纯数字，如验证码

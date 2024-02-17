@@ -1,7 +1,7 @@
 # 输入数据
 # 下面这些文件都放在input_data目录下
 # 聊天记录
-msg_file: msg.csv
+msg_file: msg10.csv
 # 微信表情中英文对照表
 emoji_file: emoji.txt
 # 停用词表，一般是没有实际意义的词，不想让被分析到的词都放在这里
