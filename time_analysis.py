@@ -7,8 +7,8 @@ def time_ana(msg_file='msg.csv', figsize=(12, 8)):
     print('时域处理')
     data = pd.read_csv(f'input_data/{msg_file}', usecols=['StrTime'],
                        parse_dates=['StrTime']).dropna()
-    data['year-month'] = data['StrTime'].apply(lambda x: f'{x.year}/{x.month}')
-    data['hour'] = data['StrTime'].apply(lambda x: str(x.hour))
+    data['year-month'] = data['StrTime'].apply(lambda x: str(x.year)+'/'+str(x.month).zfill(2))
+    data['hour'] = data['StrTime'].apply(lambda x: str(x.hour).zfill(2))
     # 计算时间跨度
     date0 = data.loc[0, 'StrTime'].date()
     date1 = data.loc[data.shape[0] - 1, 'StrTime'].date()
@@ -19,7 +19,7 @@ def time_ana(msg_file='msg.csv', figsize=(12, 8)):
     data_yearmonth = data.groupby(by='year-month')['year-month'].count()
     # 时均数据
     data_hour = data.groupby(by='hour')['hour'].count() / n_date
-    data_hour0_index = set(str(each) for each in range(24)) - set(data_hour.index)
+    data_hour0_index = set(str(each).zfill(2) for each in range(24)) - set(data_hour.index)
     data_hour0 = pd.Series([0 for _ in range(len(data_hour0_index))], data_hour0_index)
     data_hour = pd.concat((data_hour, data_hour0))
     data_hour.sort_index(inplace=True)
