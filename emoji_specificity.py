@@ -11,9 +11,9 @@ def emoji_specificity(name1: str = 'person 1', name2: str = 'person 2',
     print('计算emoji_specificity')
     raw = pd.read_csv('temp_files/keywords.csv')[['IsSender', 'emoji']].dropna()
     # 自己
-    d1_emoji = ', '.join(raw.loc[raw['IsSender'] == 0, 'emoji'].to_list()).split(', ')
+    d1_emoji = ', '.join(raw.loc[raw['IsSender'] == 1, 'emoji'].to_list()).split(', ')
     # 对方
-    d2_emoji = ', '.join(raw.loc[raw['IsSender'] == 1, 'emoji'].to_list()).split(', ')
+    d2_emoji = ', '.join(raw.loc[raw['IsSender'] == 0, 'emoji'].to_list()).split(', ')
     d1_count = Counter(d1_emoji)
     d2_count = Counter(d2_emoji)
     with open('temp_files/emoji_count.pkl', 'wb') as pf:

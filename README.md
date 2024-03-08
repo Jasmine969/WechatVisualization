@@ -72,6 +72,12 @@ GitHub地址：[LC044/WeChatMsg: 提取微信聊天记录，将其导出成HTML�
 | tqdm       | 打印进度条   |
 | pyecharts  | 绘制词云     |
 
+一键安装方法：
+
+```sh
+pip install -r requirements.txt
+```
+
 安装方法不是本篇重点，基本上都是 `pip install` ，如果遇到问题请自行上网搜索解决方法，在此不赘。
 
 ## 修改配置文件

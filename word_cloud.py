@@ -36,8 +36,8 @@ def wc_main(name_both: str = 'both', name1: str = 'person 1', name2: str = 'pers
     print('计算词频并制作词云')
     raw = pd.read_csv('temp_files/keywords.csv')[['IsSender', 'keywords']].dropna()
     both = raw['keywords']
-    d1 = raw.loc[raw['IsSender'] == 1, 'keywords']  # 对方
-    d2 = raw.loc[raw['IsSender'] == 0, 'keywords']  # 己方
+    d1 = raw.loc[raw['IsSender'] == 1, 'keywords']  # 己方
+    d2 = raw.loc[raw['IsSender'] == 0, 'keywords']  # 对方
     makeWC(both.to_list(), name_both)
     d1_res = makeWC(d1.to_list(), name1)
     d2_res = makeWC(d2.to_list(), name2)
