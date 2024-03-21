@@ -52,6 +52,11 @@ def parse(msg_file='msg.csv', emoji_file='emoji.txt',
         # 我发现jieba总是会把微信表情[Cry]分成[,Cry,]，因此人为把它们合起来
         for _ in range(result.count(']')):
             ind2 = result.index(']')
+            try:
+                _ = result[ind2 - 2]
+            except IndexError:
+                print(f'数据文件第{i}行有问题')
+                raise IndexError
             if result[ind2 - 2] != '[':
                 continue
             emoji_text = result[ind2 - 1]
