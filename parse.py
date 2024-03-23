@@ -40,44 +40,45 @@ def parse(msg_file='msg.csv', emoji_file='emoji.txt',
     records['emoji'] = [float('nan') for _ in range(records.shape[0])]
     # emoji_set = set()
     for i in tqdm(range(process_rows)):
-        for word in jieba.cut(records.loc[i, 'StrContent'], use_paddle=True):  # 使用paddle模式
-            # 不是停词，不是空白，是数字字母下划线汉字或者[]，不是纯数字(包括带小数点的)，不是单个英文字母
-            if word not in stop_words and len(word.strip()) and \
-                    findall('[\[\]一-龟a-zA-Z0-9]+', word) and \
-                    not findall('^\d{1,}$|^\d{1,}\.\d{1,}$', word) and \
-                    not findall('^[a-zA-Z]$', word):
-                if word in transformDict:
-                    word = transformDict[word]
-                result.append(word)
-        # 我发现jieba总是会把微信表情[Cry]分成[,Cry,]，因此人为把它们合起来
-        for _ in range(result.count(']')):
-            ind2 = result.index(']')
-            try:
-                _ = result[ind2 - 2]
-            except IndexError:
-                print(f'数据文件第{i}行有问题')
-                df_bug = records.loc[[i], :]
-                df_bug.to_csv('bug.csv', index=None, encoding='utf_8_sig')
-                raise IndexError
-            if result[ind2 - 2] != '[':
-                continue
-            emoji_text = result[ind2 - 1]
-            if emoji_text in emoji_eng2cn.keys():
-                # 如果是英文并且在字典中，就转换成中文
-                cur_emoji = '[' + emoji_eng2cn[emoji_text] + ']'
-            else:
-                if findall('^[0-9a-zA-Z]+$', emoji_text):
-                    # 如果emoji_text全部是字母数字并且不在emoji字典中，就删除后跳过
-                    del result[ind2 - 2:ind2 + 1]
+        try:
+            for word in jieba.cut(records.loc[i, 'StrContent'], use_paddle=True):  # 使用paddle模式
+                # 不是停词，不是空白，是数字字母下划线汉字或者[]，不是纯数字(包括带小数点的)，不是单个英文字母
+                if word not in stop_words and len(word.strip()) and \
+                        findall('[\[\]一-龟a-zA-Z0-9]+', word) and \
+                        not findall('^\d{1,}$|^\d{1,}\.\d{1,}$', word) and \
+                        not findall('^[a-zA-Z]$', word):
+                    if word in transformDict:
+                        word = transformDict[word]
+                    result.append(word)
+            # 我发现jieba总是会把微信表情[Cry]分成[,Cry,]，因此人为把它们合起来
+            for _ in range(result.count(']')):
+                ind2 = result.index(']')
+                if len(result) < 3:
+                    break
+                if result[ind2 - 2] != '[':
                     continue
-                cur_emoji = '[' + emoji_text + ']'  # 纯汉字
-            del result[ind2 - 2:ind2 + 1]
-            emoji_res.append(cur_emoji)
-            # emoji_set.add(cur_emoji)
-        records.loc[i, 'keywords'] = ', '.join(result)
-        records.loc[i, 'emoji'] = ', '.join(emoji_res)
-        result = []
-        emoji_res = []
+                emoji_text = result[ind2 - 1]
+                if emoji_text in emoji_eng2cn.keys():
+                    # 如果是英文并且在字典中，就转换成中文
+                    cur_emoji = '[' + emoji_eng2cn[emoji_text] + ']'
+                else:
+                    if findall('^[0-9a-zA-Z]+$', emoji_text):
+                        # 如果emoji_text全部是字母数字并且不在emoji字典中，就删除后跳过
+                        del result[ind2 - 2:ind2 + 1]
+                        continue
+                    cur_emoji = '[' + emoji_text + ']'  # 纯汉字
+                del result[ind2 - 2:ind2 + 1]
+                emoji_res.append(cur_emoji)
+                # emoji_set.add(cur_emoji)
+            records.loc[i, 'keywords'] = ', '.join(result)
+            records.loc[i, 'emoji'] = ', '.join(emoji_res)
+            result = []
+            emoji_res = []
+        except Exception as e:
+            print(f'数据文件某行行有问题，异常为{e}。请检查生成的bug.csv，可以提交给开发者。')
+            df_bug = records.loc[[i], :]
+            df_bug.to_csv('bug.csv', index=None, encoding='utf_8_sig')
+            raise e
     records.replace('', float('nan'), inplace=True)  # 方便后面dropna
     # 分词后，由于某些消息全是停词，使得分词为空，需要删去这部分
     records.dropna(how='all', subset=['keywords', 'emoji'], inplace=True)
