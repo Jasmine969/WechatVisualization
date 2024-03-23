@@ -39,8 +39,8 @@ def parse(msg_file='msg.csv', emoji_file='emoji.txt',
     records['keywords'] = [float('nan') for _ in range(records.shape[0])]
     records['emoji'] = [float('nan') for _ in range(records.shape[0])]
     # emoji_set = set()
-    for i in tqdm(range(process_rows)):
-        try:
+    try:
+        for i in tqdm(range(process_rows)):
             for word in jieba.cut(records.loc[i, 'StrContent'], use_paddle=True):  # 使用paddle模式
                 # 不是停词，不是空白，是数字字母下划线汉字或者[]，不是纯数字(包括带小数点的)，不是单个英文字母
                 if word not in stop_words and len(word.strip()) and \
@@ -74,11 +74,11 @@ def parse(msg_file='msg.csv', emoji_file='emoji.txt',
             records.loc[i, 'emoji'] = ', '.join(emoji_res)
             result = []
             emoji_res = []
-        except Exception as e:
-            print(f'数据文件某行行有问题，异常为{e}。请检查生成的bug.csv，可以提交给开发者。')
-            df_bug = records.loc[[i], :]
-            df_bug.to_csv('bug.csv', index=None, encoding='utf_8_sig')
-            raise e
+    except Exception as e:
+        print(f'数据文件某行有问题，异常为{e}。请检查生成的bug.csv，可以提交给开发者。')
+        df_bug = records.loc[[i], :]
+        df_bug.to_csv('bug.csv', index=None, encoding='utf_8_sig')
+        raise e
     records.replace('', float('nan'), inplace=True)  # 方便后面dropna
     # 分词后，由于某些消息全是停词，使得分词为空，需要删去这部分
     records.dropna(how='all', subset=['keywords', 'emoji'], inplace=True)
