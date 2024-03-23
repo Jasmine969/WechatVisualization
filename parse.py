@@ -56,6 +56,8 @@ def parse(msg_file='msg.csv', emoji_file='emoji.txt',
                 _ = result[ind2 - 2]
             except IndexError:
                 print(f'数据文件第{i}行有问题')
+                df_bug = records.loc[[i], :]
+                df_bug.to_csv('bug.csv', index=None, encoding='utf_8_sig')
                 raise IndexError
             if result[ind2 - 2] != '[':
                 continue
