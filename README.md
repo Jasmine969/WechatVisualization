@@ -1,3 +1,7 @@
+# Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Jasmine969/WechatVisualization&type=Date)](https://star-history.com/#Jasmine969/WechatVisualization&Date)
+
 # 功能概要
 
 **能做什么**
