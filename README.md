@@ -1,3 +1,5 @@
+WechatVisualization功能已集成入WeFlow，后者是一个集导出数据、分析、可视化于一体的软件。因此，WechatVisualization已没有更新的必要了，进行存档。
+
 # Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=Jasmine969/WechatVisualization&type=Date)](https://star-history.com/#Jasmine969/WechatVisualization&Date)
@@ -252,3 +254,4 @@ $$
 ## 未来展望
 
 本项目没有集成留痕的功能，如果把留痕的提取数据功能加进来，可以实现更简单的流程化操作。然而囿于作者的能力和时间限制，这一想法目前无法实践。对于其他功能不足、可改进的地方，也欢迎大家在GitHub或公众号后台留言。欢迎志同道合之士加入开发者团队，我们一起开发更好的 WechatVisualization！
+
